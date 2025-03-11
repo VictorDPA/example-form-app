@@ -71,9 +71,12 @@ function MultiStepForm() {
       });
       y += 4;
     });
-    const fileName = `${formState["Nome"] || "form-data"}-${
-      new Date().toISOString().split("T")[0]
-    }.pdf`;
+
+    const name = formState["Nome"]
+      ? formState["Nome"].replace(/\s+/g, "_")
+      : "form_data";
+    const date = new Date().toISOString().split("T")[0].replace(/-/g, "_");
+    const fileName = `${name}_${date}.pdf`;
     doc.save(fileName);
   };
 
@@ -131,7 +134,7 @@ function MultiStepForm() {
           onClick={fillMockData}
           className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
         >
-          Fill All Answers with Mock Data
+          Preenchimento Automático Ficção
         </button>
         <button
           onClick={exportToPDF}
