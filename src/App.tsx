@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -12,23 +12,24 @@ import { useAuthStore } from "./store/auth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 function App() {
   return (
-    <div className="min-h-screen flex-col bg-slate-600 flex items-center justify-center">
-      <div className="text-white text-center text-4xl font-bold mb-8">
-        <button
-          onClick={() => {
-            localStorage.clear();
-            window.location.reload();
-          }}
-          className="bg-red-500 text-white px-4 py-2 rounded text-sm"
-        >
-          Clear Local Storage
-        </button>
-      </div>
+    <div className="min-h-screen flex flex-col bg-slate-600 items-center justify-center">
+      <h1 className="text-white text-center text-4xl font-bold mb-8">
+        Anamnese Form
+      </h1>
+      <button
+        onClick={() => {
+          localStorage.clear();
+          window.location.reload();
+        }}
+        className="bg-red-500 text-white px-4 py-2 rounded text-sm mb-4"
+      >
+        Clear Local Storage
+      </button>
       <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
         <Router>
           <Routes>
@@ -49,7 +50,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
         </Router>
       </div>

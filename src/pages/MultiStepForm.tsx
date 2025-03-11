@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import formData from "../data/formData.json";
+import mockAnswers from "../data/mockAnswers.json";
 import { useNavigate } from "react-router-dom";
 
 function MultiStepForm() {
@@ -13,28 +14,41 @@ function MultiStepForm() {
   }, {} as Record<string, string>);
 
   const [formState, setFormState] = useState(initialFormState);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const savedData = localStorage.getItem("mockFormData");
+    if (savedData) {
+      setFormState(JSON.parse(savedData));
+    }
+  }, []);
+
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const nextStep = () => {
+  // Step Navigation
+  const nextStep = useCallback(() => {
     if (step < sections.length - 1) setStep(step + 1);
-  };
+  }, [step, sections.length]);
 
-  const prevStep = () => {
+  const prevStep = useCallback(() => {
     if (step > 0) setStep(step - 1);
-  };
+  }, [step]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formState);
   };
 
-  const navigate = useNavigate();
-
-  const toSinglePageForm = () => {
+  const toSinglePageForm = useCallback(() => {
     navigate("/single-page-form");
+  }, [navigate]);
+
+  const fillMockData = () => {
+    setFormState(mockAnswers);
+    localStorage.setItem("mockFormData", JSON.stringify(mockAnswers));
   };
 
   return (
@@ -86,12 +100,20 @@ function MultiStepForm() {
           )}
         </div>
       </form>
+      <div className="mt-8 flex flex-col gap-2">
+        <button
+          onClick={fillMockData}
+          className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
+        >
+          Fill All Answers with Mock Data
+        </button>
+      </div>
       <div className="mt-8">
         <button
           onClick={toSinglePageForm}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
         >
-          Single Page Form
+          Go to Single Page Form
         </button>
       </div>
     </div>

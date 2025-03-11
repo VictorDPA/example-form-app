@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import formData from "../data/formData.json";
+import mockAnswers from "../data/mockAnswers.json";
 import { useNavigate } from "react-router-dom";
 
 function SinglePageForm() {
@@ -13,9 +14,17 @@ function SinglePageForm() {
   const [formState, setFormState] = useState(initialFormState);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleNavigateToMultiStep = useCallback(() => {
     navigate("/multi-step-form");
-  };
+  }, [navigate]);
+
+  // Load mock data from localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem("mockFormData");
+    if (savedData) {
+      setFormState(JSON.parse(savedData));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -23,7 +32,13 @@ function SinglePageForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formState);
+    localStorage.setItem("mockFormData", JSON.stringify(formState));
+    console.log("Form Data Saved to Local Storage:", formState);
+  };
+
+  const fillMockData = () => {
+    setFormState(mockAnswers);
+    localStorage.setItem("mockFormData", JSON.stringify(mockAnswers));
   };
 
   return (
@@ -48,18 +63,27 @@ function SinglePageForm() {
           </fieldset>
         ))}
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded"
+          className="bg-green-500 text-white px-4 py-2 rounded w-full"
           type="submit"
         >
           Submit
         </button>
       </form>
+      <div className="mt-8 flex flex-col gap-2">
+        <button
+          onClick={fillMockData}
+          className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
+        >
+          Fill All Answers with Mock Data
+        </button>
+      </div>
+      {/* Navigate to Multi-Step Form */}
       <div className="mt-8">
         <button
-          onClick={handleLogin}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleNavigateToMultiStep}
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
         >
-          Multi-Step Form
+          Go to Multi-Step Form
         </button>
       </div>
     </div>
@@ -67,76 +91,3 @@ function SinglePageForm() {
 }
 
 export default SinglePageForm;
-// import { useState } from "react";
-// import { useAuthStore } from "../store/auth";
-// import { useNavigate } from "react-router-dom";
-
-// function SinglePageForm() {
-//   const [formData, setFormData] = useState<{
-//     formTitle: string;
-//     sections: {
-//       title: string;
-//       fields?: string[];
-//     }[];
-//   }>({
-//     formTitle: "",
-//     sections: [],
-//   });
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = (e: React.FormEvent) => {
-//     e.preventDefault();
-//     console.log("Form Data Submitted:", formData);
-//   };
-
-//   const { login } = useAuthStore();
-//   const navigate = useNavigate();
-
-//   const handleLogin = () => {
-//     login();
-//     navigate("/multi-step-form");
-//   };
-
-//   return (
-//     <div className="p-6 max-w-lg mx-auto">
-//       <h2 className="text-xl font-bold mb-4">{formData.formTitle}</h2>
-//       <form onSubmit={handleSubmit} className="space-y-6">
-//         {formData.sections.map((section) => (
-//           <div key={section.title}>
-//             <h3 className="text-lg font-semibold mb-2">{section.title}</h3>
-//             {section.fields?.map((field) => (
-//               <div key={field} className="mb-2">
-//                 <label className="block font-medium">{field}:</label>
-//                 <input
-//                   className="border p-2 w-full"
-//                   type="text"
-//                   name={field}
-//                   onChange={handleChange}
-//                 />
-//               </div>
-//             ))}
-//           </div>
-//         ))}
-//         <button
-//           className="bg-green-500 text-white px-4 py-2 rounded"
-//           type="submit"
-//         >
-//           Submit
-//         </button>
-//       </form>
-//       <div className="mt-8">
-//         <button
-//           onClick={handleLogin}
-//           className="bg-blue-500 text-white px-4 py-2 rounded"
-//         >
-//           Multi-Step Form
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default SinglePageForm;
