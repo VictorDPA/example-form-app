@@ -1,6 +1,6 @@
 {
   "name": "examplesformsteps",
-  "homepage": "https://VictorDPA.github.io/examplesformsteps",
+  "homepage": "https://VictorDPA.github.io/example-form-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -27,6 +27,7 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "postcss": "^8.5.3",
     "tailwindcss": "3.3",
