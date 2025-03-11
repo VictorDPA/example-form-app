@@ -64,8 +64,10 @@ function MultiStepForm() {
       y += 6;
       section.fields.forEach((field) => {
         doc.setFontSize(12);
-        doc.text(`${field}: ${formState[field] || ""}`, 10, y);
-        y += 6;
+        const text = `${field}: ${formState[field] || ""}`;
+        const splitText = doc.splitTextToSize(text, 180);
+        doc.text(splitText, 10, y);
+        y += splitText.length * 6;
       });
       y += 4;
     });
