@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import formData from "../data/formData.json";
 import mockAnswers from "../data/mockAnswers.json";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 function MultiStepForm() {
   const [step, setStep] = useState(0);
@@ -49,6 +50,27 @@ function MultiStepForm() {
   const fillMockData = () => {
     setFormState(mockAnswers);
     localStorage.setItem("mockFormData", JSON.stringify(mockAnswers));
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(formData.formTitle, 10, 10);
+
+    let y = 20;
+    formData.sections.forEach((section) => {
+      doc.setFontSize(14);
+      doc.text(section.title, 10, y);
+      y += 6;
+      section.fields.forEach((field) => {
+        doc.setFontSize(12);
+        doc.text(`${field}: ${formState[field] || ""}`, 10, y);
+        y += 6;
+      });
+      y += 4;
+    });
+
+    doc.save("form-data.pdf");
   };
 
   return (
@@ -106,6 +128,12 @@ function MultiStepForm() {
           className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
         >
           Fill All Answers with Mock Data
+        </button>
+        <button
+          onClick={exportToPDF}
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+        >
+          Export as PDF
         </button>
       </div>
       <div className="mt-8">

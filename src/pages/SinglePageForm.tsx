@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import formData from "../data/formData.json";
 import mockAnswers from "../data/mockAnswers.json";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 function SinglePageForm() {
   const initialFormState = formData.sections.reduce((acc, section) => {
@@ -41,6 +42,26 @@ function SinglePageForm() {
     localStorage.setItem("mockFormData", JSON.stringify(mockAnswers));
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(formData.formTitle, 10, 10);
+
+    let y = 20;
+    formData.sections.forEach((section) => {
+      doc.setFontSize(14);
+      doc.text(section.title, 10, y);
+      y += 6;
+      section.fields.forEach((field) => {
+        doc.setFontSize(12);
+        doc.text(`${field}: ${formState[field] || ""}`, 10, y);
+        y += 6;
+      });
+      y += 4;
+    });
+
+    doc.save("form-data.pdf");
+  };
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">{formData.formTitle}</h2>
@@ -75,6 +96,12 @@ function SinglePageForm() {
           className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
         >
           Fill All Answers with Mock Data
+        </button>
+        <button
+          onClick={exportToPDF}
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+        >
+          Export as PDF
         </button>
       </div>
       {/* Navigate to Multi-Step Form */}
