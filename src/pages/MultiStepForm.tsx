@@ -71,8 +71,10 @@ function MultiStepForm() {
       });
       y += 4;
     });
-
-    doc.save("form-data.pdf");
+    const fileName = `${formState["Nome"] || "form-data"}-${
+      new Date().toISOString().split("T")[0]
+    }.pdf`;
+    doc.save(fileName);
   };
 
   return (
