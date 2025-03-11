@@ -1,0 +1,61 @@
+{
+  "formTitle": "Anamnese - Avaliação Infantil",
+  "sections": [
+    {
+      "title": "Identificação",
+      "fields": [
+        "Escola",
+        "Data",
+        "Nome",
+        "Série",
+        "Endereço",
+        "Data de Nascimento",
+        "Idade",
+        "Sexo",
+        "Cor",
+        "Religião",
+        "Pai (Nome, Escolaridade, Idade, Ocupação, Instituto de Previdência)",
+        "Mãe (Nome, Escolaridade, Idade, Ocupação, Instituto de Previdência)",
+        "Responsável",
+        "Informante"
+      ]
+    },
+    {
+      "title": "Composição Familiar",
+      "fields": [
+        "Nome, Idade, Sexo, Estado Civil, Grau de Parentesco, Instrução, Local de Trabalho",
+        "Renda Familiar"
+      ]
+    },
+    {
+      "title": "Queixa ou Motivo do Encaminhamento",
+      "fields": [
+        "Descrição da queixa",
+        "Idade em que foi constatado o problema",
+        "Providências tomadas na ocasião",
+        "Dificuldades motoras e orientação espacial"
+      ]
+    },
+    {
+      "title": "Antecedentes",
+      "fields": [
+        "A gestação foi planejada?",
+        "Causas de gestações interrompidas e/ou mortes"
+      ]
+    },
+    {
+      "title": "Gestação",
+      "fields": [
+        "Reação da mãe à gravidez",
+        "Fez tratamento pré-natal?",
+        "Sofreu quedas durante a gravidez?",
+        "Teve doenças durante a gestação?",
+        "Tirou radiografias durante a gestação?",
+        "Medicamentos utilizados",
+        "Tomou vacina durante a gestação?",
+        "Teve ameaça de aborto?",
+        "Fez transfusão de sangue na gestação?"
+      ]
+    }
+  ]
+}
