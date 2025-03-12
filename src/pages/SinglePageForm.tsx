@@ -118,7 +118,7 @@ function SinglePageForm() {
           onClick={handleNavigateToMultiStep}
           className="bg-blue-500 text-white px-4 py-2 rounded w-full"
         >
-          Go to Multi-Step Form
+          Mudar para Relatorio em Seções
         </button>
       </div>
     </div>
