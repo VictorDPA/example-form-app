@@ -28,7 +28,7 @@ function App() {
         }}
         className="bg-red-500 text-white px-4 py-2 rounded text-sm mb-4"
       >
-        Clear Local Storage
+        Reiniciar Tudo
       </button>
       <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
         <Router>
